@@ -1,12 +1,12 @@
 provider "aws" {
-  region = "us-east-1"  # Change to your desired region
-  profile       = "iamadmin-general" 
+  region  = "us-east-1"  # Change to your desired region
+  profile = "iamadmin-general" 
 }
 
 resource "aws_instance" "web_server" {
   ami           = "ami-0fff1b9a61dec8a5f"  # Replace with your desired AMI ID
   instance_type = "t2.micro"   
-  key_name     = "A4L"  # Replace with your key pair name
+  key_name      = "A4L"  # Replace with your key pair name
   
   vpc_security_group_ids = [aws_security_group.web_sg.id]
 
