@@ -25,3 +25,6 @@ override.tf.json
 terraform.rc
 
 Terraform/.terraform/
+
+ansible.cfg
+
