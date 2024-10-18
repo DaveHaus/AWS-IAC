@@ -1,5 +1,35 @@
 ---
-plugin: amazon.aws.aws_ec2
-regions:
-  - us-east-1
-  
+- name: Install and configure Docker on EC2 instances
+  hosts: ec2_instances
+  become: true  # Elevate privileges (since Docker installation requires sudo)
+  tasks:
+
+    - name: Update all packages
+      yum:
+        name: '*'
+        state: latest
+
+    - name: Install Docker
+      yum:
+        name: docker
+        state: present
+
+    - name: Start and enable Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: true
+
+    - name: Add ec2-user to the docker group
+      user:
+        name: ec2-user
+        groups: docker
+        append: yes
+
+    - name: Ensure Docker is running
+      command: docker ps
+      register: docker_running
+      changed_when: false
+
+    - debug:
+        msg: "Docker is running on {{ inventory_hostname }}"
